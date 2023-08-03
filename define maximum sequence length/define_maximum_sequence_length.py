@@ -1,8 +1,9 @@
 import os
 import torch
 import torchaudio
+import numpy as np
 
-path = "/Project/wav/"
+path = "/Users/yueyuansui/Project/wav/"
 all_data = sorted(os.listdir(path))
 
 # Preprocess Audio Data
@@ -14,12 +15,17 @@ class AudioProcessing():
         return signal, sr
 
 # define maximum sequence length
-max_Li = []
+Li_all = []
 for i in range(len(all_data)):
     audio_file = path + all_data[i]
     signal, sr = AudioProcessing.load(audio_file)
     bundle = torchaudio.pipelines.HUBERT_LARGE
     model_hubert_large = bundle.get_model()
     signal_hubert_large,_ = model_hubert_large(signal)
-    max_Li.append(signal_hubert_large.shape[1])
+    Li_all.append(signal_hubert_large.shape[1])
     print(f"file {i} is processing, the max_Li is {signal_hubert_large.shape[1]}")
+
+max_Li = max(Li_all)
+
+Li_all = np.array(Li_all)
+np.save('Li_all.npy', Li_all)
