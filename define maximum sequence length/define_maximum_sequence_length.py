@@ -3,7 +3,7 @@ import torch
 import torchaudio
 import numpy as np
 
-path = "/Users/yueyuansui/Project/wav/"
+path = "/Project/wav/"
 all_data = sorted(os.listdir(path))
 
 # Preprocess Audio Data
